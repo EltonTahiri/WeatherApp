@@ -3,6 +3,11 @@ import axios from "axios";
 import "./Home.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import sunnyweather from "../assets/sunnyweather.mp4";
+import rain from "../assets/rain.mp4";
+import sunnypng from "../assets/sunnypng.jpg";
+import rainypng from "../assets/rainypng.jpg";
+import rainV2 from "../assets/rainV2.mp4"
 
 const Home = () => {
   const [city, setCity] = useState("London");
@@ -39,13 +44,15 @@ const Home = () => {
   useEffect(() => {
     if (error && !errorToastShownRef.current) {
       toast.error(error.message);
-      errorToastShownRef.current = true; 
+      errorToastShownRef.current = true;
     }
   }, [error]);
 
   const getWeatherIconUrl = (iconCode) => {
     return `http://openweathermap.org/img/wn/${iconCode}.png`;
   };
+
+  console.log(weatherData);
 
   return (
     <div className="main-section">
@@ -58,7 +65,7 @@ const Home = () => {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
-          <button type="submit">Search Weather</button>
+          <button type="submit">Search city</button>
         </form>
       </div>
       {weatherData && (
@@ -77,6 +84,24 @@ const Home = () => {
                 alt="Weather Icon"
               />
             )}
+          {weatherData.weather[0].main === "Clear" && (
+            <div className="background-video">
+              <video autoPlay loop muted src={sunnyweather}>
+                {/* <img src={sunnypng} alt="Sunny Weather" /> */}
+                Your browser does not support the video tag.
+              </video>
+              <p>{weatherData.weather[0].main}</p>
+            </div>
+          )}
+          {weatherData.weather[0].main !== "Clear" && (
+            <div className="background-video">
+              <video autoPlay loop muted src={rainV2}>
+                {/* <img src={rainypng} alt="Rainy Weather" /> */}
+                Your browser does not support the video tag.
+              </video>
+              {/* <p>{weatherData.weather[0].main}</p> */}
+            </div>
+          )}
         </div>
       )}
     </div>

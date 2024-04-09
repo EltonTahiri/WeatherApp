@@ -2,31 +2,42 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
 .main-section {
   padding: 2% 25% 5px 25%;
   display: grid;
   text-align: center;
   align-items: center;
-  justify-content:space-evenly;
+  justify-content: center;
+  z-index: 1;
+
 }
+
 .form-section {
-    margin-top: 20px;
-}
-.form-section input {
-  font-size: 1em;
-  border-radius: 8px;
-  border: 1px solid black;
-  padding: 5px 5px 5px 5px;
-  font-family: 'Poppins', sans-serif;
-}
-.form-section button {
-  border-radius: 8px;
-  border: 1px solid black;
-  background-color: #33cc33;
-  font-size: 1em;
-  padding: 5px 5px 5px 5px;
-  margin-left: 5px;
-  font-family: 'Poppins', sans-serif;
   margin-top: 20px;
 }
 
+.form-section input,
+.form-section button {
+  font-size: 1em;
+  border-radius: 8px;
+  border: 1px solid black;
+  padding: 5px 10px; /* Adjust padding for better appearance */
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-section button {
+  background-color: #33cc33;
+  margin-left: 5px;
+  margin-top: 20px;
+}
