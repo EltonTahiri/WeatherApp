@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Home.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  const [city, setCity] = useState("London"); // Initialize with London
+  const [city, setCity] = useState("London");
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
+
+  const errorToastShownRef = useRef(false);
 
   const fetchWeatherData = async () => {
     try {
@@ -17,11 +19,13 @@ const Home = () => {
           params: {
             q: city,
             units: "metric",
-            appid: "bb56965cdb315da09de44254c1d382c6",
+            appid: process.env.REACT_APP_OPENWEATHERMAP_API_KEY,
           },
         }
       );
       setWeatherData(response.data);
+      setError(null); // Reset error if request succeeds
+      errorToastShownRef.current = false; // Reset the flag for error toast
     } catch (error) {
       setError(error);
     }
@@ -33,21 +37,19 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchWeatherData();
-  }, []);
+    if (error && !errorToastShownRef.current) {
+      toast.error(error.message);
+      errorToastShownRef.current = true; 
+    }
+  }, [error]);
 
   const getWeatherIconUrl = (iconCode) => {
     return `http://openweathermap.org/img/wn/${iconCode}.png`;
   };
 
-  if(error) {
-    toast.error(error.message)
-  }
-
   return (
     <div className="main-section">
       <ToastContainer />
-
       <div className="form-section">
         <form onSubmit={handleSubmit}>
           <input
